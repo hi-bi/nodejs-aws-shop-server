@@ -22,7 +22,7 @@ export class ShopServerStack extends cdk.Stack {
     });
 
     // Define the API Gateway resource
-    const apiProducts = new apigateway.LambdaRestApi(this, 'productApi', {
+    const apiProducts = new apigateway.LambdaRestApi(this, 'productsApi', {
       handler: getProductsList,
       proxy: false,
     });
