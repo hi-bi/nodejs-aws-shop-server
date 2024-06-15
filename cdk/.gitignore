@@ -1,5 +1,5 @@
 *.js
-!functions/*.js
+!services/serverless/product-service/functions/*.js
 !jest.config.js
 *.d.ts
 node_modules

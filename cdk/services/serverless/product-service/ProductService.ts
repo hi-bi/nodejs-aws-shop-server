@@ -9,12 +9,12 @@ export class ProductService extends Construct {
         super(scope, id);
 
         const getProductsList = new NodejsFunction(this, 'getProductsListLambda', {
-            entry: 'services/serverless/product-server/functions/cdk-products.js',
+            entry: 'services/serverless/product-service/functions/cdk-products.js',
             runtime: Runtime.NODEJS_LATEST,
         });
 
         const getProduct = new NodejsFunction(this, 'getProductLambda', {
-            entry: 'services/serverless/product-server/functions/cdk-product.js',
+            entry: 'services/serverless/product-service/functions/cdk-product.js',
             runtime: Runtime.NODEJS_LATEST,
         });
 
