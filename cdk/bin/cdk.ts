@@ -2,7 +2,7 @@
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
 import { appName, taskNum } from '../constants/cdk-constants';
-import { ShopServerStack } from '../lib/cdk-stack';
+import { ShopServerStack } from '../lib/cdk-product-servce-stack';
 
 const app = new cdk.App();
 new ShopServerStack(app, `${appName}-${taskNum}-Stack`, {
