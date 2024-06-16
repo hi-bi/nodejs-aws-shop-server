@@ -9,6 +9,8 @@ export class ProductService extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
 
+        //!!! cdk deploy error for NodejsFunction: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
+        
         //const getProductsList = new NodejsFunction(this, 'getProductsListLambda', {
         //    entry: 'services/serverless/product-service/functions/cdk-products.js',
         //    runtime: Runtime.NODEJS_LATEST,
@@ -36,7 +38,14 @@ export class ProductService extends Construct {
             description: 'Product service api.',
         });
 
-        const getProductsListPath = api.root.addResource('products'); 
+        const getProductsListPath = api.root.addResource('products', {
+            defaultCorsPreflightOptions: {
+                allowOrigins: apigateway.Cors.ALL_ORIGINS,
+                //allowMethods: apigateway.Cors.ALL_METHODS,
+                //allowOrigins: ['cloudfront.net'],
+                allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(['x-api-key'])
+            }
+        }); 
         // path name https://{createdId}.execute-api.us-east.amazonaws.com/prod/products
 
         getProductsListPath.addMethod(
@@ -44,7 +53,14 @@ export class ProductService extends Construct {
             new apigateway.LambdaIntegration(getProductsList)
         );
 
-        const getProductPath = getProductsListPath.addResource('{product_id}');
+        const getProductPath = getProductsListPath.addResource('{product_id}', {
+            defaultCorsPreflightOptions: {
+                allowOrigins: apigateway.Cors.ALL_ORIGINS,
+                //allowMethods: apigateway.Cors.ALL_METHODS,
+                //allowOrigins: ['cloudfront.net'],
+                allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(['x-api-key'])
+            }
+        });
         // path name https://{createdId}.execute-api.us-east.amazonaws.com/prod/{product-id}
 
         getProductPath.addMethod(
