@@ -1,0 +1,79 @@
+openapi: 3.0.3
+info:
+  title: Product Service API
+  description: API for managing products
+  termsOfService: http://swagger.io/terms/
+  version: 1.0.0
+servers:
+  - url: https://ihtyohfb10.execute-api.us-east-1.amazonaws.com/prod/
+    description: AWS API Gateway
+paths:
+  /products:
+    get:
+      summary: Get list of products
+      operationId: getProductsList
+      responses:
+        '200':
+          description: A list of products
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id: 
+                      type: string
+                      example: 7567ec4b-b10c-48c5-9345-fc73c48a80aa
+                    title:
+                      type: string
+                      example: Product One
+                    price:
+                      type: number
+                      example: 99.99
+                    description:
+                      type: string
+                      example: Short Product One Description
+  /product/{product_id}:
+    get:
+      summary: Get product by ID (UUID)
+      operationId: getProductsById
+      parameters:
+        - name: product_id
+          in: path
+          description: ID(UUID) of the product to retrieve
+          required: true
+          schema:
+            type: string
+            example: 7567ec4b-b10c-48c5-9345-fc73c48a80aa
+      responses:
+        '200':
+          description: A single product
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                    id: 
+                      type: string
+                      example: 7567ec4b-b10c-48c5-9345-fc73c48a80aa
+                    title:
+                      type: string
+                      example: Product One
+                    price:
+                      type: number
+                      example: 99.99
+                    description:
+                      type: string
+                      example: Short Product One Description
+                
+        '404':
+          description: Product not found
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message: 
+                    type: string
+                    example: Product not found          
