@@ -39,8 +39,8 @@ exports.handler = async (event) => {
         },
     ];
 
-    const productId = event.pathParameters.productId
-    const product = products.find((el) => el.id = productId)
+    const productId = event.pathParameters.product_id
+    const product = products.find((el) => el.id == productId)
     
     if (product) {
         return {
