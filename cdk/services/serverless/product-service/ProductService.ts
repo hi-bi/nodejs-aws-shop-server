@@ -10,7 +10,7 @@ export class ProductService extends Construct {
 
         const getProductsList = new GetProductsList(this, 'getProductsListLambda').getProductsList;
 
-        const getProductById = new GetProductById(this, 'getProductsListLambda').getProductById;
+        const getProductById = new GetProductById(this, 'getProductsByIdLambda').getProductById;
 
         const apiGatewayProductService = new ApiGatewayProductService(this, 'product-service-api',
             getProductsList,
