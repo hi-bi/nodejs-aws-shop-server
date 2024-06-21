@@ -1,5 +1,16 @@
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
+
+const dynamodb = new DynamoDB({});
+
 exports.handler = async (event) => {
 
+    const result = await dynamodb.send(
+        new ScanCommand({
+            TableName: process.env.PRODUCTS_TABLE_NAME,
+        })
+    );
+/*
     const products = [
         {
             description: "Short Product Description1",
@@ -38,7 +49,8 @@ exports.handler = async (event) => {
             title: "ProductName",
         },
     ];
-    
+*/
+
     return {
         statusCode: 200,
         headers: { 
@@ -46,6 +58,6 @@ exports.handler = async (event) => {
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,GET'
         },
-        body: JSON.stringify(products),
+        body: JSON.stringify(result.Items),
     };
 };
