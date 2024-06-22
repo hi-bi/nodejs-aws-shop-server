@@ -1,5 +1,11 @@
-exports.handler = async (event) => {
+import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
 
+export const handler: APIGatewayProxyHandler = async (
+    event: APIGatewayProxyEvent,
+    ): Promise<APIGatewayProxyResult> => {
+
+    console.log('Products lambda event: ', JSON.stringify(event, null, 4));
+    
     const products = [
         {
             description: "Short Product Description1",
@@ -39,31 +45,13 @@ exports.handler = async (event) => {
         },
     ];
 
-    const productId = event.pathParameters.product_id
-    const product = products.find((el) => el.id == productId)
-    
-    if (product) {
-        return {
-            statusCode: 200,
-            headers: { 
-                "Content-Type":"application/json",
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT,DELETE'
-            },
-            body: JSON.stringify(product),
-        };
-    
-    } else {
-        return {
-            statusCode: 404,
-            headers: { 
-                "Content-Type":"application/json",
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT,DELETE'
-            },
-            body: JSON.stringify({"message": "Product not found"}),
-        };
-
-    }
-
+    return {
+        statusCode: 200,
+        headers: { 
+            "Content-Type":"application/json",
+            'Access-Control-Allow-Origin': '*',
+            'Access-Control-Allow-Methods': 'OPTIONS,GET'
+        },
+        body: JSON.stringify(products),
+    };
 };

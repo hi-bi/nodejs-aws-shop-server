@@ -9,7 +9,7 @@ export class ShopServerStack extends cdk.Stack {
     super(scope, id, props);
 
     // The code that defines your stack goes here
-    
+
     const productService = new ProductService( this, `${appName}-${taskNum}-ProductServiceAPIGateway`)
 
   }
