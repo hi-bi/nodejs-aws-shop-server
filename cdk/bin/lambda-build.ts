@@ -9,6 +9,6 @@ esbuild.build({
     platform: 'node',
     target: ['node20'],
     //outfile: 'out.js',
-    outdir: 'dist',
+    outdir: 'dist/product-service/lambdas',
     format: 'cjs',
   })

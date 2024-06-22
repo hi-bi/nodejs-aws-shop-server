@@ -19,7 +19,7 @@ export class GetProductById {
 
         const getProductById = new lambda.Function(scope, id, {
             runtime: lambda.Runtime.NODEJS_16_X, // Choose any supported Node.js runtime
-            code: lambda.Code.fromAsset('services/serverless/product-service/functions'), // Points to the lambda directory
+            code: lambda.Code.fromAsset('dist/product-service/lambdas'), // Points to the lambda directory
             handler: 'cdk-product.handler', // Points to the 'cdk-products' file in the lambda directory
         });
 

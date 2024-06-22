@@ -30,7 +30,7 @@ export class GetProductsList {
         // Define the Lambda function resource
         const getProductsList = new lambda.Function(scope, id, {
             runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
-            code: lambda.Code.fromAsset('services/serverless/product-service/functions'), // Points to the lambda directory
+            code: lambda.Code.fromAsset('dist/product-service/lambdas'), // Points to the lambda directory
             handler: 'cdk-products.handler', // Points to the 'cdk-products' file in the lambda directory
 //            layers: [
 //                layer
