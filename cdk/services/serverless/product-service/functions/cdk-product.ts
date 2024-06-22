@@ -1,11 +1,25 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import { DynamoDB } from '@aws-sdk/client-dynamodb';
+import { ScanCommand } from '@aws-sdk/lib-dynamodb';
+import { DYNAMODB } from '../../../../constants/cdk-constants'
 
 export const handler: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent,
     ): Promise<APIGatewayProxyResult> => {
 
+    
     console.log('Product lambda event: ', JSON.stringify(event, null, 4));
+    const dynamodb = new DynamoDB({});
+
+    const result = await dynamodb.send(
+        new ScanCommand({
+          TableName: DYNAMODB.PRODUCTS_TABLE,
+        })
+    );
+
+
+    console.log('Products dynamodb result: ', JSON.stringify(result, null, 4));
 
     const products = [
         {

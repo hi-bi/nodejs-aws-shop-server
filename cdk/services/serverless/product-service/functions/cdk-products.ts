@@ -1,11 +1,18 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
+import { productsData } from '../../../dynamodb/product-storage/getProductsData';
+
 
 export const handler: APIGatewayProxyHandler = async (
     event: APIGatewayProxyEvent,
     ): Promise<APIGatewayProxyResult> => {
 
     console.log('Products lambda event: ', JSON.stringify(event, null, 4));
-    
+
+    const availableProducts = productsData.getAvailableProducts();
+
+    console.log('availableProducts result: ', JSON.stringify(availableProducts, null, 4));
+
+/*
     const products = [
         {
             description: "Short Product Description1",
@@ -44,7 +51,7 @@ export const handler: APIGatewayProxyHandler = async (
             title: "ProductName",
         },
     ];
-
+*/
     return {
         statusCode: 200,
         headers: { 
@@ -52,6 +59,6 @@ export const handler: APIGatewayProxyHandler = async (
             'Access-Control-Allow-Origin': '*',
             'Access-Control-Allow-Methods': 'OPTIONS,GET'
         },
-        body: JSON.stringify(products),
+        body: JSON.stringify(availableProducts),
     };
 };
