@@ -4,8 +4,8 @@
   "description": "Backend for NodeJS in AWS course",
   "main": "index.js",
   "scripts": {
-    "deploy": "cd cdk && cdk deploy",
-    "destroy": "cd cdk && cdk destroy -f",
+    "deploy": "cd cdk && cdk deploy --profile admin",
+    "destroy": "cd cdk && cdk destroy -f --profile admin",
     "test": "exit 0"
   },
   "repository": {
