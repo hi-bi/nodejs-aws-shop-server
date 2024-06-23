@@ -8,7 +8,10 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 export class GetProductsList {
     getProductsList: IFunction
 
-    constructor(scope: Construct, id: string) {
+    constructor(scope: Construct, id: string, 
+        productsTableName: string, 
+        stocksTableName: string, 
+        ) {
 
         //!!! cdk deploy error for NodejsFunction: Cannot connect to the Docker daemon at unix:///var/run/docker.sock. Is the docker daemon running?
         
@@ -32,6 +35,10 @@ export class GetProductsList {
             runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
             code: lambda.Code.fromAsset('dist/product-service/lambdas'), // Points to the lambda directory
             handler: 'cdk-products.handler', // Points to the 'cdk-products' file in the lambda directory
+            environment: {
+                PRODUCTS_TABLE: productsTableName,
+                STOCKS_TABLE: stocksTableName,
+            }
 //            layers: [
 //                layer
 //            ],
