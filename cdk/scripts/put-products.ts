@@ -7,7 +7,7 @@ import { DYNAMODB } from "../constants/cdk-constants";
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);
 
-export const main = async () => {
+(async () => {
 
   const products = productsMockData;
 
@@ -38,6 +38,4 @@ export const main = async () => {
 
   console.log('stocksMockData loaded');
 
-};
-
-await main();
+})()

@@ -1,7 +1,6 @@
 {
   "name": "cdk",
   "version": "0.1.0",
-  "type":"module",
   "bin": {
     "cdk": "bin/cdk.js"
   },
@@ -15,7 +14,7 @@
     "deployprof": "cdk deploy --profile admin",
     "destroyprof": "cdk destroy -f --profile admin",
     "lambda": "ts-node bin/lambda-build.ts",
-    "data": "npx tsx scripts/put-products.ts"
+    "data": "ts-node scripts/put-products.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
