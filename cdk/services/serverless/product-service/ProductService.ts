@@ -12,7 +12,7 @@ export class ProductService extends Construct {
 
         const getProductsTable = new GetProductsTable( this, 'ProductsTable').getProductsTable;
 
-        const getStocksTable = new GetStocksTable( this, 'ProductsTable').getStocksTable;
+        const getStocksTable = new GetStocksTable( this, 'StocksTable').getStocksTable;
   
         const getProductsList = new GetProductsList(this, 'ProductsListLambda').getProductsList;
 

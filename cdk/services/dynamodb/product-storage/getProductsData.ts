@@ -5,7 +5,7 @@ import { IAvailableProduct, IStock, IProduct } from '../../../entities/entity-pr
 
 const dynamodb = new DynamoDB({});
 
-class getProductsData {
+class GetProductsData {
 
     async getAvailableProducts(): Promise<IAvailableProduct[]> {
 
@@ -44,7 +44,7 @@ class getProductsData {
   
 }
 
-const productsData = new getProductsData();
+const getProductsData = new GetProductsData();
 
 
-export { productsData }
+export { getProductsData }

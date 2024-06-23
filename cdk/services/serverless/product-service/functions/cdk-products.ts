@@ -1,5 +1,5 @@
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
-import { productsData } from '../../../dynamodb/product-storage/getProductsData';
+import { getProductsData } from '../../../dynamodb/product-storage/getProductsData';
 
 
 export const handler: APIGatewayProxyHandler = async (
@@ -8,7 +8,7 @@ export const handler: APIGatewayProxyHandler = async (
 
     console.log('Products lambda event: ', JSON.stringify(event, null, 4));
 
-    const availableProducts = productsData.getAvailableProducts();
+    const availableProducts = await getProductsData.getAvailableProducts();
 
     console.log('availableProducts result: ', JSON.stringify(availableProducts, null, 4));
 

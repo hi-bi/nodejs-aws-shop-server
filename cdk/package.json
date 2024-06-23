@@ -9,9 +9,12 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy": "cdk deploy --profile admin",
-    "destroy": "cdk destroy -f --profile admin",
-    "lambda": "ts-node bin/lambda-build.ts"
+    "deploy": "cdk deploy",
+    "destroy": "cdk destroy -f",
+    "deployprof": "cdk deploy --profile admin",
+    "destroyprof": "cdk destroy -f --profile admin",
+    "lambda": "ts-node bin/lambda-build.ts",
+    "data": "ts-node scripts/put-products.ts"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
