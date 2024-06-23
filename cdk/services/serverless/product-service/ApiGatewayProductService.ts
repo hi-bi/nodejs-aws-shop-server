@@ -46,16 +46,6 @@ export class ApiGatewayProductService {
         );
 
 
-        const createProductPath = api.root.addResource('products', {
-            defaultCorsPreflightOptions: {
-                allowOrigins: apigateway.Cors.ALL_ORIGINS,
-                //allowMethods: apigateway.Cors.ALL_METHODS,
-                //allowOrigins: ['cloudfront.net'],
-                allowHeaders: apigateway.Cors.DEFAULT_HEADERS.concat(['x-api-key'])
-            }
-        }); 
-        // path name https://{createdId}.execute-api.us-east.amazonaws.com/prod/products
-
         const createProductModel = new apigateway.Model( scope, 'createProductModel', 
             {
                 restApi: api,
@@ -70,7 +60,7 @@ export class ApiGatewayProductService {
                 validateRequestBody: true
             }
         )
-        createProductPath.addMethod(
+        getProductsListPath.addMethod(
             'POST',
             new apigateway.LambdaIntegration(createProduct),
             {
