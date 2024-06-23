@@ -1,8 +1,8 @@
 const appName = "ShopServer";
 const taskNum = "411"
 const DYNAMODB = {
-    PRODUCTS_TABLE: 'products',
-    STOCKS_TABLE: 'stocks',
+    PRODUCTS_TABLE: 'products411',
+    STOCKS_TABLE: 'stocks411',
 }
 
 export {appName, taskNum, DYNAMODB}
