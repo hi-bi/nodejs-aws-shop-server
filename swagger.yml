@@ -5,8 +5,30 @@ info:
   termsOfService: http://swagger.io/terms/
   version: 1.0.0
 servers:
-  - url: https://ihtyohfb10.execute-api.us-east-1.amazonaws.com/prod/
-    description: AWS API Gateway
+  - url: https://1fd94tl1uh.execute-api.eu-north-1.amazonaws.com/prod/
+      description: AWS API Gateway
+
+components:
+  schemas:
+    AvailableProducts:
+      type: object
+      properties:
+        title:
+          type: string
+          example: "Product"
+        description:
+          type: string
+          example: "Description"
+        price:
+          type: number
+          example: 99.99
+        count:
+          type: number
+          example: 17
+      required:
+        - title
+        - price
+        - count
 paths:
   /products:
     get:
@@ -34,6 +56,28 @@ paths:
                     description:
                       type: string
                       example: Short Product One Description
+      tags:
+        - products
+    post:
+      parameters: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AvailableProducts'
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+        '400':
+          description: >-
+            Bad request. Body does not contain required fields
+      tags:
+        - products
   /product/{product_id}:
     get:
       summary: Get product by ID (UUID)
@@ -76,4 +120,6 @@ paths:
                 properties:
                   message: 
                     type: string
-                    example: Product not found          
+                    example: Product not found 
+      tags:
+        - products
