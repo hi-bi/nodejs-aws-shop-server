@@ -105,7 +105,7 @@ class GetProductsData {
 
         console.log('transData response: ', transData);
 
-        return newAvailableProduct
+        return { ...newAvailableProduct, id}
     }
 
 }
