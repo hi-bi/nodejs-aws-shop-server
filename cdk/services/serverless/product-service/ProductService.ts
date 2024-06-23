@@ -14,9 +14,9 @@ export class ProductService extends Construct {
 
         const getStocksTable = new GetStocksTable( this, 'StocksTable').getStocksTable;
   
-        const getProductsList = new GetProductsList(this, 'ProductsListLambda').getProductsList;
+        const getProductsList = new GetProductsList(this, 'getProductsList').getProductsList;
 
-        const getProductById = new GetProductById(this, 'ProductsByIdLambda').getProductById;
+        const getProductById = new GetProductById(this, 'getProductsById').getProductById;
 
         getProductsTable.grantReadData(getProductsList);
         getProductsTable.grantReadData(getProductById);
