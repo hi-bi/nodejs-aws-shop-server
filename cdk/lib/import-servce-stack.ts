@@ -8,7 +8,7 @@ class ImportServiceStack extends cdk.Stack {
 
     // The code that defines your stack goes here
 
-    const importService = new ImportService( scope, id + '-importService' );
+    const importService = new ImportService( this, id + '-importService' );
 
   }
 }

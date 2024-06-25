@@ -26,8 +26,11 @@ export const handler: APIGatewayProxyHandler = async (
         }
 
         const s3Client = new S3Client({});
+        //console.log('s3Client: ', JSON.stringify({s3Client}))
 
-        const bucketName = process.env.BUCKET_NAME;
+        const bucketName = process.env.IMPORT_BUCKET_NAME;
+
+        //console.log('bucketName: ', bucketName);
         
         const preSignedUrl = await getSignedUrl(
             s3Client,
@@ -38,7 +41,7 @@ export const handler: APIGatewayProxyHandler = async (
             { expiresIn: 300 },
         );
         
-    
+            
         console.log('preSignedUrl: ', preSignedUrl);
     
         return {
@@ -50,7 +53,8 @@ export const handler: APIGatewayProxyHandler = async (
         };
             
     } catch (error) {
-    
+        console.log('error: ', error);
+
         return {
             statusCode: 500,
             headers: { 
