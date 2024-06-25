@@ -9,8 +9,8 @@ const dbClient = new DynamoDB({});
 class GetProductsData {
     
     protected env = {
-        PRODUCTS_TABLE: DYNAMODB.PRODUCTS_TABLE,
-        STOCKS_TABLE: DYNAMODB.STOCKS_TABLE,
+        PRODUCTS_TABLE: process.env.PRODUCTS_TABLE,
+        STOCKS_TABLE: process.env.STOCKS_TABLE,
     }
 
     async getAvailableProducts(): Promise<IAvailableProduct[]> {
