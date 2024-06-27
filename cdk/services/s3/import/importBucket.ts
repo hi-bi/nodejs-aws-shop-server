@@ -1,7 +1,6 @@
 import { Construct } from 'constructs';
 import * as cdk from 'aws-cdk-lib';
 import * as s3 from 'aws-cdk-lib/aws-s3';
-import { Cors } from 'aws-cdk-lib/aws-apigateway';
 
 class ImportBucket {
     importBucket: s3.IBucket

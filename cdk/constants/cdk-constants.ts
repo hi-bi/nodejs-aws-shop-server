@@ -3,7 +3,11 @@ const taskNum = "511"
 const DYNAMODB = {
     PRODUCTS_TABLE: 'products' + taskNum,
     STOCKS_TABLE: 'stocks' + taskNum,
-    IMPORT_BUCKET_NAME: 'importBucket' + taskNum,
 }
 
-export {appName, taskNum, DYNAMODB}
+const S3 = {
+    IMPORT_BUCKET_ID: 'importBacket' + taskNum,
+    IMPORT_BUCKET_NAME: 'importbacketrss',
+}
+
+export {appName, taskNum, DYNAMODB, S3}
