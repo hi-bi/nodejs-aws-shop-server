@@ -1,7 +1,7 @@
 //import { NodeJsClient } from "@smithy/types";
 import { S3Event } from 'aws-lambda';
-import { Readable, Writable, Stream, Transform, TransformCallback } from "node:stream";
-import { DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client, S3 } from '@aws-sdk/client-s3'
+import { Readable, Writable, Stream, Transform } from "node:stream";
+import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client, S3 } from '@aws-sdk/client-s3'
 import { Upload } from "@aws-sdk/lib-storage";
 import { Logger } from '@aws-lambda-powertools/logger';
 import csvParser from "csv-parser"; 
@@ -22,70 +22,96 @@ export const handler = async (
             const bucketName = event.Records[0].s3?.bucket?.name || '';
             const objectKey = event.Records[0].s3?.object?.key || '';
             
-            logger.info("starting parse from s3", { bucketName }, { objectKey });
+            logger.info("starting s3 file parse", { bucketName }, { objectKey });
             //console.log("starting parse from s3");
+            const sourceFileParam = {
+                Bucket: bucketName,
+                Key: objectKey,
+            }
 
-            const readableStream = (
-                await s3Client.send(
-                    new GetObjectCommand({
-                        Bucket: bucketName,
-                        //Key: `${BASE_PATH}/${path}`,
-                        Key: objectKey,
-                    }),
-                )
-            ).Body as Readable;
+            const getFileCommand = new GetObjectCommand(sourceFileParam);
 
-            logger.info("readableStream created", { readableStream });
-            //console.log("readableStream created", { readableStream });
+            const readableFileStream = (await s3Client.send(getFileCommand)).Body as Readable;
 
-            logger.info("Starting Products file parse", { readableStream });
+            logger.info("readableStream created");
+            console.log("readableStream created");
 
-            const csvStream = readableStream.pipe(csvParser())
+            logger.info("Starting Products file parse", { readableFileStream });
+
+/*
+            const csvStream = readableFileStream.pipe(csvParser())
             .on('data', function(data){
                 logger.info("Products record: ", { data });
-                //console.log("Products record: ", { data });
+                console.log("Products record: ", { data });
                 //perfsorm the operation
             })
             .on('end',function(){
                 //some final operation
                 logger.info("Products file parsed and logged");
-                //console.log("Products file parsed");
+                console.log("Products file parsed");
 
             });  
+*/
 
-            logger.info("Starting Products file move");
+            async function streamParser(readableStream: Transform) {
+                return new Promise((resolve, reject) => {
+                    readableStream
+                    .on('data', function(data){
+                        logger.info("Products record: ", { data });
+                        console.log("Products record: ", { data });
+                        //perfsorm the operation
+                    })
+                    .on('end',function(){
+                        //some final operation
+                        logger.info("Products file parsed and logged");
+                        console.log("Products file parsed and logged");
+        
+                    })
+                    .on('close',function(){
+                        resolve("parsed");
+                    })
+                    .on('error', reject);
+                });
+            }
+
+            const parseData = await streamParser(readableFileStream.pipe(csvParser()));
+
 
             const fileName = objectKey.split('/').slice(1);
-            const targetKey = 'uploaded/' + fileName;
+            const targetKey = 'parsed/' + fileName;
+            logger.info("Starting Products file move", { targetKey });
+            console.log("Starting Products file move", { targetKey });
 
-            const copyFile = (
-                await s3Client.send(
-                    new PutObjectCommand({
-                        Bucket: bucketName,
-                        //Key: `${BASE_PATH}/${path}`,
-                        Key: targetKey,
-                        Body: readableStream,
-                    }),
-                )
-            );
+            async function copyFileBucket() {
+                const copyCommand = new CopyObjectCommand({
+                    CopySource: bucketName + '/' + objectKey,
+                    Bucket: bucketName,
+                    Key: targetKey,
+                }); 
 
-            logger.info("Products file copied", { copyFile});
+                const response = await s3Client.send(copyCommand);
+            }
+
+            const copyFile = await copyFileBucket();
+
+            logger.info("Products file copied to ", { bucketName }, { targetKey });
+            console.log("Starting Products file move", { bucketName }, { targetKey });
 
             logger.info("Starting Products file delete");
 
-            const deleteFile = (
-                await s3Client.send(
-                    new DeleteObjectCommand({
-                        Bucket: bucketName,
-                        //Key: `${BASE_PATH}/${path}`,
-                        Key: objectKey,
-                    }),
-                )
-            );
 
-            logger.info("Products file deleted", { deleteFile});
+            async function deleteFileBucket() {
 
-            const response = deleteFile;
+                const deleteFileCommand = new DeleteObjectCommand(sourceFileParam);
+
+                const response = await s3Client.send(deleteFileCommand);
+            }
+
+            const deleteFile = await deleteFileBucket();
+
+            logger.info("Products file deleted", { sourceFileParam });
+            console.log("Products file deleted", { sourceFileParam } )
+
 /* 
             const response = await s3Client.send(
                 new PutObjectCommand({
@@ -150,12 +176,14 @@ export const handler = async (
             const response = await upload.done();
 */
 
-            logger.info("Products uploaded", { response });
-            console.log("Products uploaded", { response });
+            logger.info("Products uploaded");
+            console.log("Products uploaded");
+
+            const result = 0
 
         //}
         return {
-            response
+            result
         }
             
     } catch (error) {
