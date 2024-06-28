@@ -27,7 +27,7 @@ class ImportFileParser {
         const importFileParserLambda = new lambda.Function(scope, id, {
             runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
             code: lambda.Code.fromAsset('dist/import-service/lambdas'), // Points to the lambda directory
-            handler: 'importProductsFileLambda.handler', // Points to the 'importProductsFileLambda' file in the lambda directory
+            handler: 'importFileParserLambda.handler', // Points to the 'importProductsFileLambda' file in the lambda directory
             environment: {
                 IMPORT_BUCKET_NAME: importBucket.bucketName,
                 LOG_LEVEL: 'INFO',

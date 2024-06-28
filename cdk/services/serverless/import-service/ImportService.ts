@@ -3,6 +3,7 @@ import { ImportBucket } from '../../s3/import/importBucket';
 import { ImportProductsFile } from './importProductsFile';
 import { ApiGatewayImportService } from './ApiGatewayImportService';
 import { S3 } from '../../../constants/cdk-constants';
+import { ImportFileParser } from './importFileParser'; 
 
 
 class ImportService extends Construct {
@@ -19,6 +20,8 @@ class ImportService extends Construct {
         const apiGatewayImportService = new ApiGatewayImportService( scope, 'apiGatewayImportService',
             importProductsFileLambda,
         ).apiGatewayProductService;
+
+        const importFileParserLambda = new ImportFileParser( scope, 'importFileParserLambda').importFileParserLambda;
 
     }
 }
