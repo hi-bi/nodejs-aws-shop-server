@@ -25,23 +25,23 @@ export class ProductService extends Construct {
             getStocksTable.tableName
         ).getProductById;
 
-        const postCreateProduct = new CreateProduct( scope, 'postCreateProduct',
+        const putCreateProduct = new CreateProduct( scope, 'putCreateProduct',
             getProductsTable.tableName,
             getStocksTable.tableName
-        ).postCreateProduct
+        ).putCreateProduct
 
         getProductsTable.grantReadData(getProductsList);
         getProductsTable.grantReadData(getProductById);
-        getProductsTable.grantWriteData(postCreateProduct);
+        getProductsTable.grantWriteData(putCreateProduct);
 
         getStocksTable.grantReadData(getProductsList);
         getStocksTable.grantReadData(getProductById);
-        getStocksTable.grantWriteData(postCreateProduct);
+        getStocksTable.grantWriteData(putCreateProduct);
 
         const apiGatewayProductService = new ApiGatewayProductService( scope, 'product-service-api',
             getProductsList,
             getProductById,
-            postCreateProduct
+            putCreateProduct
         ).apiGatewayProductService;
 
     }

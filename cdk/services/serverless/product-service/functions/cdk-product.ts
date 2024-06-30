@@ -20,9 +20,11 @@ export const handler: APIGatewayProxyHandler = async (
             return {
                 statusCode: 200,
                 headers: { 
-                    "Content-Type":"application/json",
+                    "Access-Control-Allow-Headers": "Origin,Content-Type",
+                    "Content-Type": "application/json",
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
+                    'Access-Control-Max-Age': 2592000,
                 },
                 body: JSON.stringify(productById),
             };
@@ -31,9 +33,10 @@ export const handler: APIGatewayProxyHandler = async (
             return {
                 statusCode: 404,
                 headers: { 
-                    "Content-Type":"application/json",
+                    "Access-Control-Allow-Headers": "Origin,Content-Type",
+                    "Content-Type": "application/json",
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
                 },
                 body: JSON.stringify({"message": "Product not found"}),
             };
@@ -44,10 +47,11 @@ export const handler: APIGatewayProxyHandler = async (
         return {
             statusCode: 500,
             headers: { 
-                "Content-Type":"application/json",
+                "Access-Control-Allow-Headers": "Origin,Content-Type",
+                "Content-Type": "application/json",
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET'
-            },
+                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
+        },
             body: JSON.stringify({'message': 'Internal Error'}),
         };
         

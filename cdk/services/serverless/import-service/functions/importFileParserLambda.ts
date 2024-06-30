@@ -36,7 +36,7 @@ export const handler = async (
             logger.info("readableStream created");
             console.log("readableStream created");
 
-            logger.info("Starting Products file parse", { readableFileStream });
+            //logger.info("Starting Products file parse", { readableFileStream });
 
 /*
             const csvStream = readableFileStream.pipe(csvParser())
@@ -65,10 +65,7 @@ export const handler = async (
                         //some final operation
                         logger.info("Products file parsed and logged");
                         console.log("Products file parsed and logged");
-        
-                    })
-                    .on('close',function(){
-                        resolve("parsed");
+                        resolve;
                     })
                     .on('error', reject);
                 });
@@ -97,7 +94,7 @@ export const handler = async (
             logger.info("Products file copied to ", { bucketName }, { targetKey });
             console.log("Starting Products file move", { bucketName }, { targetKey });
 
-            logger.info("Starting Products file delete");
+            //logger.info("Starting Products file delete");
 
 
             async function deleteFileBucket() {
@@ -179,12 +176,9 @@ export const handler = async (
             logger.info("Products uploaded");
             console.log("Products uploaded");
 
-            const result = 0
-
         //}
-        return {
-            result
-        }
+//        return {
+//        }
             
     } catch (error) {
 
