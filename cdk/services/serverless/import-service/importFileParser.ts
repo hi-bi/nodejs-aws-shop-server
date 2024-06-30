@@ -36,6 +36,7 @@ class ImportFileParser {
         });
 
         importBucket.grantReadWrite(importFileParserLambda);
+        importBucket.grantPut(importFileParserLambda);
         importBucket.grantDelete(importFileParserLambda);
 
         importFileParserLambda.addEventSource(

@@ -7,7 +7,7 @@ const DYNAMODB = {
 
 const S3 = {
     IMPORT_BUCKET_ID: 'importBacket' + taskNum,
-    IMPORT_BUCKET_NAME: 'importbacketrss',
+    IMPORT_BUCKET_NAME: 'importbacket-rss',
 }
 
 export {appName, taskNum, DYNAMODB, S3}
