@@ -1,5 +1,5 @@
 const appName = "ShopServer";
-const taskNum = "514"
+const taskNum = "515"
 const DYNAMODB = {
     PRODUCTS_TABLE: 'products' + taskNum,
     STOCKS_TABLE: 'stocks' + taskNum,
