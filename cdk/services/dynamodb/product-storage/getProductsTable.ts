@@ -3,7 +3,7 @@ import * as cdk from "aws-cdk-lib";
 import { ITable} from "aws-cdk-lib/aws-dynamodb";
 import * as dynamodb from 'aws-cdk-lib/aws-dynamodb'
 //import { DynamoDB, } from '@aws-sdk/client-dynamodb';
-import { DYNAMODB } from '../../../constants/cdk-constants';
+import { DYNAMODB } from '../../../constants/constants';
 
 
 export class GetProductsTable {

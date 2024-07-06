@@ -2,7 +2,7 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { PutCommand, DynamoDBDocumentClient } from "@aws-sdk/lib-dynamodb";
 import { productsMockData } from '../mock/products-data';
 import { stocksMockData } from '../mock/stocks-data';
-import { DYNAMODB } from "../constants/cdk-constants"; 
+import { DYNAMODB } from "../constants/constants"; 
 
 const client = new DynamoDBClient({});
 const docClient = DynamoDBDocumentClient.from(client);

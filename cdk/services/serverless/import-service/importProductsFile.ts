@@ -2,8 +2,7 @@ import { Construct } from 'constructs';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-
-//import { DYNAMODB } from '../../../constants/cdk-constants';
+import { S3 } from '../../../constants/constants';
 
 
 class ImportProductsFile {
@@ -21,6 +20,7 @@ class ImportProductsFile {
             handler: 'importProductsFileLambda.handler', // Points to the 'importProductsFileLambda' file in the lambda directory
             environment: {
                 IMPORT_BUCKET_NAME: importBucketName,
+                IMPORT_UPLOADED_PREFIX: S3.IMPORT_UPLOADED_PREFIX,
                 LOG_LEVEL: 'INFO',
             },
             logRetention: RetentionDays.THREE_DAYS,

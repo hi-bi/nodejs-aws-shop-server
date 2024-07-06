@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import 'source-map-support/register';
 import * as cdk from 'aws-cdk-lib';
-import { taskNum } from '../constants/cdk-constants';
+import { taskNum } from '../constants/constants';
 import { ShopServerStack } from '../lib/cdk-product-servce-stack';
 import { ImportServiceStack } from '../lib/import-servce-stack';
 

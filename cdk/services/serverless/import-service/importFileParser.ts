@@ -3,7 +3,7 @@ import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { S3EventSource } from 'aws-cdk-lib/aws-lambda-event-sources'; 
 import { Bucket ,EventType } from 'aws-cdk-lib/aws-s3'; 
-import { S3 } from '../../../constants/cdk-constants';
+import { S3 } from '../../../constants/constants';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 
 

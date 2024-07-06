@@ -3,6 +3,7 @@ import { IRestApi, IResource, MockIntegration, PassthroughBehavior } from 'aws-c
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { availableProductDto } from '../../../entities/apiGatewayDto';
+import { taskNum } from '../../../constants/constants';
 
 
 export class ApiGatewayProductService {
@@ -32,7 +33,7 @@ export class ApiGatewayProductService {
         );
 
 
-        const createProductModel = new apigateway.Model( scope, 'createProductModel', 
+        const createProductModel = new apigateway.Model( scope, `createProductModel-${taskNum}`, 
             {
                 restApi: api,
                 schema: availableProductDto,
@@ -40,7 +41,7 @@ export class ApiGatewayProductService {
             }
         );
 
-        const createProductRequestValidator = new apigateway.RequestValidator( scope, 'createProductRequestValidator',
+        const createProductRequestValidator = new apigateway.RequestValidator( scope, `createProductRequestValidator-${taskNum}`,
             {
                 restApi: api,
                 validateRequestBody: true

@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { ImportBucket } from '../../s3/import/importBucket';
 import { ImportProductsFile } from './importProductsFile';
 import { ApiGatewayImportService } from './ApiGatewayImportService';
-import { S3 } from '../../../constants/cdk-constants';
+import { S3 } from '../../../constants/constants';
 import { ImportFileParser } from './importFileParser'; 
 
 

@@ -5,44 +5,86 @@ import { CreateProduct } from './CreateProduct';
 import { ApiGatewayProductService } from './ApiGatewayProductService';
 import { GetProductsTable } from '../../dynamodb/product-storage/getProductsTable';
 import { GetStocksTable } from '../../dynamodb/product-storage/getStocksTable';
+import { taskNum } from '../../../constants/constants';
+import { Queue } from 'aws-cdk-lib/aws-sqs';
+import { CreateProductTopic } from './CreateProductTopic';
+import { QUEUE } from '../../../constants/constants';
+import { CatalogBatchProcessLambda } from './catalogBatchProcess';
+import { SqsEventSource } from 'aws-cdk-lib/aws-lambda-event-sources';
+import { CfnOutput } from 'aws-cdk-lib';
 
 
 export class ProductService extends Construct {
     constructor(scope: Construct, id: string) {
         super(scope, id);
 
-        const getProductsTable = new GetProductsTable( scope, 'ProductsTable').getProductsTable;
+        const getProductsTable = new GetProductsTable( scope, `ProductsTable-${taskNum}`).getProductsTable;
 
-        const getStocksTable = new GetStocksTable( scope, 'StocksTable').getStocksTable;
+        const getStocksTable = new GetStocksTable( scope, `StocksTable-${taskNum}`).getStocksTable;
   
-        const getProductsList = new GetProductsList( scope, 'getProductsList',
+        const getProductsList = new GetProductsList( scope, `getProductsList-${taskNum}`,
             getProductsTable.tableName,
             getStocksTable.tableName
         ).getProductsList;
 
-        const getProductById = new GetProductById( scope, 'getProductsById',
+        const getProductById = new GetProductById( scope, `getProductsById-${taskNum}`,
             getProductsTable.tableName,
             getStocksTable.tableName
         ).getProductById;
 
-        const putCreateProduct = new CreateProduct( scope, 'putCreateProduct',
+        const createProduct = new CreateProduct( scope, `createProduct-${taskNum}`,
             getProductsTable.tableName,
             getStocksTable.tableName
-        ).putCreateProduct
+        ).createProduct
 
         getProductsTable.grantReadData(getProductsList);
         getProductsTable.grantReadData(getProductById);
-        getProductsTable.grantWriteData(putCreateProduct);
+        getProductsTable.grantWriteData(createProduct);
 
         getStocksTable.grantReadData(getProductsList);
         getStocksTable.grantReadData(getProductById);
-        getStocksTable.grantWriteData(putCreateProduct);
+        getStocksTable.grantWriteData(createProduct);
 
-        const apiGatewayProductService = new ApiGatewayProductService( scope, 'product-service-api',
+
+        const apiGatewayProductService = new ApiGatewayProductService( scope, `product-service-api-${taskNum}`,
             getProductsList,
             getProductById,
-            putCreateProduct
+            createProduct
         ).apiGatewayProductService;
+
+
+        const catalogItemsQueue = new Queue( scope, QUEUE.CATALOG_ITEMS_QUEUE_ID,
+            {
+                queueName: QUEUE.CATALOG_ITEMS_QUEUE_NAME
+            }
+        );
+
+        new CfnOutput(scope, `catalogItemsQueueOtput-${taskNum}`,
+            {
+                value: catalogItemsQueue.queueArn,
+            }
+        );
+        
+        const createProductTopic = new CreateProductTopic( scope, QUEUE.IMPORT_PRODUCTS_TOPIC_ID,
+                QUEUE.IMPORT_PRODUCTS_TOPIC_NAME,
+        )
+
+
+        const catalogBatchProcessLambda = new CatalogBatchProcessLambda( scope, `catalogBatchProcess-${taskNum}`,
+            createProductTopic.createProductTopicArn,
+            getProductsTable.tableName,
+            getStocksTable.tableName
+        ).catalogBatchProcessLambda
+
+        getProductsTable.grantWriteData(catalogBatchProcessLambda);
+        getStocksTable.grantWriteData(catalogBatchProcessLambda);
+
+        createProductTopic.createProductTopic.grantPublish(catalogBatchProcessLambda);
+        catalogBatchProcessLambda.addEventSource( new SqsEventSource( catalogItemsQueue, 
+            {
+                batchSize: 5,
+            }
+        ))
 
     }
 }
