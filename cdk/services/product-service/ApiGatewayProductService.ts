@@ -2,8 +2,8 @@ import { Construct } from 'constructs';
 import { IRestApi, IResource, MockIntegration, PassthroughBehavior } from 'aws-cdk-lib/aws-apigateway';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import { availableProductDto } from '../../../entities/apiGatewayDto';
-import { taskNum } from '../../../constants/constants';
+import { availableProductDto } from '../../entities/apiGatewayDto';
+import { taskNum } from '../../constants/constants';
 
 
 export class ApiGatewayProductService {

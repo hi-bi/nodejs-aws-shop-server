@@ -1,7 +1,7 @@
 import { Construct } from 'constructs';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
-import { QUEUE, LOGGING, S3 } from '../../../constants/constants';
+import { QUEUE, LOGGING, S3 } from '../../constants/constants';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
 import { Queue } from 'aws-cdk-lib/aws-sqs';
 

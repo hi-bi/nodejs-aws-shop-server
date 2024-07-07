@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { ProductService } from '../services/serverless/product-service/ProductService';
+import { ProductService } from '../services/product-service/ProductService';
 import { appName, taskNum } from '../constants/constants';
 
 export class ShopServerStack extends cdk.Stack {

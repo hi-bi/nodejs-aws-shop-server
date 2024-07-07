@@ -1,6 +1,6 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { GetCommand, ScanCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
-import { IAvailableProduct, IStock, IProduct } from '../../../entities/entity-product';
+import { IAvailableProduct, IStock, IProduct } from '../../entities/entity-product';
 import { randomUUID } from 'crypto';
 
 const dbClient = new DynamoDB({});

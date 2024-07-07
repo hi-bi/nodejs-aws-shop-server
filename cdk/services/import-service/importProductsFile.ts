@@ -2,7 +2,7 @@ import { Construct } from 'constructs';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
 import { RetentionDays } from 'aws-cdk-lib/aws-logs';
-import { S3 } from '../../../constants/constants';
+import { S3 } from '../../constants/constants';
 
 
 class ImportProductsFile {

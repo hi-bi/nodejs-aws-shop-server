@@ -1,6 +1,6 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
-import { getProductsData } from '../../../dynamodb/product-storage/getProductsData';
+import { getProductsData } from '../../dynamodb/getProductsData';
 
 
 export const handler: APIGatewayProxyHandler = async (

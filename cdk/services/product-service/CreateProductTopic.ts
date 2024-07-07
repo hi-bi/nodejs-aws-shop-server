@@ -6,7 +6,7 @@ import {
   SubscriptionProtocol, 
   Topic, 
 } from 'aws-cdk-lib/aws-sns';
-import { QUEUE } from '../../../constants/constants';
+import { QUEUE } from '../../constants/constants';
 
 
 class CreateProductTopic {

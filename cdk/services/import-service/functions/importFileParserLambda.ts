@@ -4,7 +4,7 @@
     import { CopyObjectCommand, DeleteObjectCommand, GetObjectCommand, PutObjectCommand, S3Client } from '@aws-sdk/client-s3'
     import csvParser from "csv-parser";
     import { SQSClient, SendMessageCommand } from "@aws-sdk/client-sqs";
-import { IProduct } from '../../../../entities/entity-product';
+import { IProduct } from '../../../entities/entity-product';
 
     const s3Client = new S3Client({})
     const sqsClient = new SQSClient({});

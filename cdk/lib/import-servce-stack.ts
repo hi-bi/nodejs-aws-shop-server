@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { ImportService } from '../services/serverless/import-service/ImportService';
+import { ImportService } from '../services/import-service/ImportService';
 
 class ImportServiceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {

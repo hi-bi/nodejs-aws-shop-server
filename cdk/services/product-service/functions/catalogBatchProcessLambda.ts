@@ -1,7 +1,7 @@
 import { snsClient } from '../snsClient';
 import { PublishCommand } from "@aws-sdk/client-sns";
 import { SQSEvent, SQSHandler} from "aws-lambda";
-import { getProductsData } from "../../../dynamodb/product-storage/getProductsData";
+import { getProductsData } from "../../dynamodb/getProductsData";
 
 export const handler: SQSHandler = async (
     event: SQSEvent,
