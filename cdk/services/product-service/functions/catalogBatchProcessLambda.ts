@@ -3,7 +3,7 @@ import { PublishCommand } from "@aws-sdk/client-sns";
 import { SQSEvent, SQSHandler} from "aws-lambda";
 import { getProductsData } from "../../dynamodb/getProductsData";
 
-export const handler: SQSHandler = async (
+export const handler = async (
     event: SQSEvent,
     ): Promise<any> => {
 
@@ -44,7 +44,7 @@ export const handler: SQSHandler = async (
         }
 
         return {
-            statusCode: 200,
+            statusCode: 201,
             body: JSON.stringify(records),
         }
             
