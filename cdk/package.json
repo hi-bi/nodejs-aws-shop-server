@@ -16,10 +16,10 @@
     "lambda-p": "ts-node bin/lambda-build.ts",
     "data": "ts-node scripts/put-products.ts",
     "lambda-i": "ts-node bin/lambda-ipf-build.ts",
-    "deploy-p": "cdk deploy ProductServiceStack-515",
-    "destroy-p": "cdk destroy -f ProductServiceStack-515",
-    "deploy-i": "cdk deploy ImportServiceStack-515",
-    "destroy-i": "cdk destroy -f ImportServiceStack-515"
+    "deploy-p": "cdk deploy ProductServiceStack-621",
+    "destroy-p": "cdk destroy -f ProductServiceStack-621",
+    "deploy-i": "cdk deploy ImportServiceStack-621",
+    "destroy-i": "cdk destroy -f ImportServiceStack-621"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",

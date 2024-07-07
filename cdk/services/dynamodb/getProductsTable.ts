@@ -18,7 +18,6 @@ export class GetProductsTable {
               partitionKey: { name: "id", type: dynamodb.AttributeType.STRING },
               tableName: DYNAMODB.PRODUCTS_TABLE,
               removalPolicy: cdk.RemovalPolicy.DESTROY,
-              //removalPolicy: cdk.RemovalPolicy.RETAIN,
             }
         );
 
