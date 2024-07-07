@@ -34,7 +34,7 @@ class CreateProductTopic {
 
     const filterSubscription = new Subscription( scope, QUEUE.FILTER_SUBSCRIPTION_ID,
       {
-        endpoint: QUEUE.SUBSCRIPTION_EMAIL,
+        endpoint: QUEUE.FILTER_SUBSCRIPTION_EMAIL,
         protocol: SubscriptionProtocol.EMAIL,
         topic: createProductTopic,
         filterPolicy:{

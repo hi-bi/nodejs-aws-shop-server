@@ -20,7 +20,8 @@ const QUEUE = {
     IMPORT_PRODUCTS_TOPIC_NAME: 'importProductsTopic',
     SUBSCRIPTION_ID: `importProductsSubscription${taskNum}`,
     FILTER_SUBSCRIPTION_ID: `importProductsFilterSubscription${taskNum}`,
-    SUBSCRIPTION_EMAIL: 'test@test.com'
+    SUBSCRIPTION_EMAIL: 'test@test.com',
+    FILTER_SUBSCRIPTION_EMAIL: 'test@test.com'
 }
 
 const LOGGING = {
