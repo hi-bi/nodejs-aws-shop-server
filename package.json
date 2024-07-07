@@ -25,5 +25,8 @@
   "homepage": "https://github.com/hi-bi/nodejs-aws-shop-server#readme",
   "devDependencies": {
     "typescript": "^5.4.5"
+  },
+  "dependencies": {
+    "@aws-sdk/lib-storage": "^3.600.0"
   }
 }

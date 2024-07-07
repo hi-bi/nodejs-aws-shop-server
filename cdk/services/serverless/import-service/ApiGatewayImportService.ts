@@ -2,66 +2,37 @@ import { Construct } from 'constructs';
 import { IRestApi, IResource, MockIntegration, PassthroughBehavior } from 'aws-cdk-lib/aws-apigateway';
 import { IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
-import { availableProductDto } from '../../../entities/apiGatewayDto';
 
 
-export class ApiGatewayProductService {
+class ApiGatewayImportService {
     apiGatewayProductService: IRestApi
 
-    constructor(scope: Construct, id: string, getProductsList: IFunction, getProductById: IFunction, createProduct: IFunction) {
+    constructor(scope: Construct, id: string, importProductsFileLambda: IFunction) {
 
         const api = new apigateway.RestApi(scope, id, {
-            description: 'Product service api.',
+            description: 'Import service api.',
         });
 
-        const getProductsListPath = api.root.addResource('products'); 
-        // path name https://{createdId}.execute-api.us-east.amazonaws.com/prod/products
+        const apiImportProductsFilePath = api.root.addResource('import'); 
 
-        getProductsListPath.addMethod(
+        apiImportProductsFilePath.addMethod(
             'GET',
-            new apigateway.LambdaIntegration(getProductsList)
-        );
-
-
-        const getProductPath = getProductsListPath.addResource('{product_id}');
-        // path name https://{createdId}.execute-api.us-east.amazonaws.com/prod/{product-id}
-
-        getProductPath.addMethod(
-            'GET',
-            new apigateway.LambdaIntegration(getProductById)
-        );
-
-
-        const createProductModel = new apigateway.Model( scope, 'createProductModel', 
+            new apigateway.LambdaIntegration(importProductsFileLambda),
             {
-                restApi: api,
-                schema: availableProductDto,
-                contentType: 'application/json',
-            }
-        );
-
-        const createProductRequestValidator = new apigateway.RequestValidator( scope, 'createProductRequestValidator',
-            {
-                restApi: api,
-                validateRequestBody: true
-            }
-        )
-        getProductsListPath.addMethod(
-            'PUT',
-            new apigateway.LambdaIntegration(createProduct),
-            {
-                requestModels: {
-                    'application/json': createProductModel
+                requestParameters: {
+                    "method.request.querystring.name": true,
                 },
-                requestValidator: createProductRequestValidator
+                requestValidatorOptions: {
+                    requestValidatorName: "ImportProductsFile-querystring-validator",
+                    validateRequestParameters: true,
+                    validateRequestBody: false,
+                },
             }
         );
 
-        addCorsOptions(getProductPath);
-        addCorsOptions(getProductsListPath);
+        addCorsOptions(apiImportProductsFilePath);
 
     }
-    
 }
 
 function addCorsOptions(apiResource: IResource) {
@@ -94,3 +65,5 @@ function addCorsOptions(apiResource: IResource) {
       }]
     })
   }
+
+export { ApiGatewayImportService }
