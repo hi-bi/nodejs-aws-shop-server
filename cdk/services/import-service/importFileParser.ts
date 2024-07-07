@@ -24,7 +24,6 @@ class ImportFileParser {
                 IMPORT_BUCKET_NAME: importBucketName,
                 IMPORT_UPLOADED_PREFIX: S3.IMPORT_UPLOADED_PREFIX,
                 IMPORT_SQS_URL: catalogItemsQueue.queueUrl,
-                LOG_LEVEL: LOGGING.IMPORT_FILE_PARSER,
             },
             logRetention: RetentionDays.ONE_WEEK,
         });

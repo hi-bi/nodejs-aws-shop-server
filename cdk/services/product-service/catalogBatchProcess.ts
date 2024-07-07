@@ -22,7 +22,6 @@ class CatalogBatchProcessLambda {
             handler: 'catalogBatchProcessLambda.handler', // Points to the 'cdk-products' file in the lambda directory
             environment: {
                 CREATE_PRODUCT_TOPIC_ARN: createProductTopicArn,
-                LOG_LEVEL: 'INFO',
                 PRODUCTS_TABLE: productsTableName,
                 STOCKS_TABLE: stocksTableName,
             },
