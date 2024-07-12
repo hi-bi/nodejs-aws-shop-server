@@ -2,6 +2,7 @@ import { snsClient } from '../snsClient';
 import { PublishCommand } from "@aws-sdk/client-sns";
 import { SQSEvent, SQSHandler} from "aws-lambda";
 import { getProductsData } from "../../dynamodb/getProductsData";
+import {  } from "@aws-sdk/types";
 
 export const handler = async (
     event: SQSEvent,
@@ -44,7 +45,7 @@ export const handler = async (
         }
 
         return {
-            statusCode: 201,
+            statusCode: 200,
             body: JSON.stringify(records),
         }
             

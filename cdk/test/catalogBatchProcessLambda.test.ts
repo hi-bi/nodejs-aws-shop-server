@@ -37,6 +37,8 @@ describe( 'catalogBatchProcess test', () => {
         snsClientMock.on(PublishCommand).resolves({});
          
         const response = await handler(event);
+
+        console.log(response);
             
         expect(response.statusCode).toBe( 200);    
     });
