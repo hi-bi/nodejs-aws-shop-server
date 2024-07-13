@@ -23,7 +23,7 @@ new ShopServerStack(app, `ProductServiceStack-${taskNum}`, {
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
 });
 
-const authorizationServiceStack = new AuthorizationServiceStack (app, `AuthorizationServiceStack-${taskNum}`, {
+const authorizationServiceStack = new AuthorizationServiceStack (app, `AuthorizationServiceStack`, {
 });
 
 const importServiceStack = new ImportServiceStack (app, `ImportServiceStack-${taskNum}`, {
