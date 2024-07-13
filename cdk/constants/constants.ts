@@ -24,8 +24,11 @@ const QUEUE = {
     FILTER_SUBSCRIPTION_EMAIL: 'test@test.com'
 }
 
+const AUTH = {
+    BASIC_AUTHORIZER_HANDLER_ARN: ''
+}
 const LOGGING = {
     IMPORT_FILE_PARSER: 'INFO',
 }
 
-export {appName, taskNum, DYNAMODB, S3, LOGGING, QUEUE}
+export {appName, taskNum, AUTH, DYNAMODB, S3, LOGGING, QUEUE}

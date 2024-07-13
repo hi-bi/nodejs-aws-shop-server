@@ -1,7 +1,9 @@
 import { Construct } from 'constructs';
-import { IRestApi, IResource, MockIntegration, PassthroughBehavior } from 'aws-cdk-lib/aws-apigateway';
-import { IFunction } from 'aws-cdk-lib/aws-lambda';
+import { IRestApi, IResource, MockIntegration, TokenAuthorizer } from 'aws-cdk-lib/aws-apigateway';
+import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
+import { AUTH } from '../../constants/constants';
+import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 
 class ApiGatewayImportService {
@@ -11,23 +13,64 @@ class ApiGatewayImportService {
 
         const api = new apigateway.RestApi(scope, id, {
             description: 'Import service api.',
+            cloudWatchRole: true,
         });
 
         const apiImportProductsFilePath = api.root.addResource('import'); 
 
+        const basicAuthorizerHandler = Function.fromFunctionArn(
+          scope,
+          'basicAuthorizer',
+          AUTH.BASIC_AUTHORIZER_HANDLER_ARN
+        );
+
+        const authorizerRole = new Role(scope, 'authorizerRole', {
+          assumedBy: new ServicePrincipal('apigateway.amazonaws.com'),
+        });
+    
+        authorizerRole.addToPolicy(
+          new PolicyStatement({
+            actions: ['lambda:InvokeFunction'],
+            resources: [basicAuthorizerHandler.functionArn],
+          }),
+        );
+
+        const tokenAuthorizer = new TokenAuthorizer(scope, 'tokenAuthorizer', {
+          handler: basicAuthorizerHandler,
+          assumeRole: authorizerRole,
+        });
+    
+/*
         apiImportProductsFilePath.addMethod(
             'GET',
             new apigateway.LambdaIntegration(importProductsFileLambda),
             {
-                requestParameters: {
-                    "method.request.querystring.name": true,
-                },
-                requestValidatorOptions: {
-                    requestValidatorName: "ImportProductsFile-querystring-validator",
-                    validateRequestParameters: true,
-                    validateRequestBody: false,
-                },
+              requestParameters: {
+                  "method.request.querystring.name": true,
+              },
+              requestValidatorOptions: {
+                  requestValidatorName: "ImportProductsFile-querystring-validator",
+                  validateRequestParameters: true,
+                  validateRequestBody: false,
+              },
             }
+        );
+*/
+        apiImportProductsFilePath.addMethod(
+          'GET', 
+          new apigateway.LambdaIntegration(importProductsFileLambda), 
+          {
+            requestParameters: {
+              "method.request.querystring.name": true,
+              "method.request.header.Authorization": true,
+            },
+            requestValidatorOptions: {
+              requestValidatorName: "ImportProductsFile-querystring-validator",
+              validateRequestParameters: true,
+              validateRequestBody: false,
+            },
+            authorizer: tokenAuthorizer,
+          }
         );
 
         addCorsOptions(apiImportProductsFilePath);
