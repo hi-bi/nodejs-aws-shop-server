@@ -4,6 +4,7 @@ import * as cdk from 'aws-cdk-lib';
 import { taskNum } from '../constants/constants';
 import { ShopServerStack } from '../lib/cdk-product-servce-stack';
 import { ImportServiceStack } from '../lib/import-servce-stack';
+import { AuthorizationServiceStack } from '../lib/authorization-service-stack';
 
 const app = new cdk.App();
 new ShopServerStack(app, `ProductServiceStack-${taskNum}`, {
@@ -20,6 +21,9 @@ new ShopServerStack(app, `ProductServiceStack-${taskNum}`, {
   // env: { account: '123456789012', region: 'us-east-1' },
 
   /* For more information, see https://docs.aws.amazon.com/cdk/latest/guide/environments.html */
+});
+
+const authorizationServiceStack = new AuthorizationServiceStack (app, `AuthorizationServiceStack-${taskNum}`, {
 });
 
 const importServiceStack = new ImportServiceStack (app, `ImportServiceStack-${taskNum}`, {
