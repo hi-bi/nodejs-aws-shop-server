@@ -29,6 +29,8 @@ export async function handle (event: APIGatewayTokenAuthorizerEvent): Promise<Au
         statementOne.Effect = effect;
         statementOne.Resource = event.methodArn;
         policyDocument.Statement[0] = statementOne;
+
+        console.log('policyDocument: ', policyDocument);
   
         return {
             principalId: encodedCredentials,
