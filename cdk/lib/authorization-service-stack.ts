@@ -1,6 +1,6 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { AuthorizationService } from '../services/authorization-service/authorizationService';
+import { AuthorizationService } from '../services/authorization-service/AuthorizationService';
 
 class AuthorizationServiceStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {

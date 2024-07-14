@@ -12,9 +12,9 @@ class AuthorizationService extends Construct {
         const authorizationServiceLambda = new lambda.Function(scope, 'basicAuthorizer', {
             runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
             code: lambda.Code.fromAsset('dist/authorization-service/lambdas'), // Points to the lambda directory
-            handler: 'basicAuthorizerLambda.handler', // Points to the 'importProductsFileLambda' file in the lambda directory
+            handler: 'basicAuthorizerLambda.handle', // Points to the 'importProductsFileLambda' file in the lambda directory
             environment: {
-                'hi-bi': process.env.hibi!,
+                hibi: process.env.hibi!,
             },
             logRetention: RetentionDays.THREE_DAYS,
             

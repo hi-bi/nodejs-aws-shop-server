@@ -8,7 +8,7 @@ export async function handle (event: APIGatewayTokenAuthorizerEvent): Promise<Au
             throw new Error('Unauthorized');
         }
     
-        const encodedCredentials = event.authorizationToken.split('')[1];
+        const encodedCredentials = event.authorizationToken.split(' ')[1];
         
         // {authorization_token} is a base64-encoded {yours_github_account_login}:TEST_PASSWORD
         const buffer = Buffer.from(encodedCredentials, 'base64');

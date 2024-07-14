@@ -25,7 +25,7 @@ const QUEUE = {
 }
 
 const AUTH = {
-    BASIC_AUTHORIZER_HANDLER_ARN: ''
+    BASIC_AUTHORIZER_HANDLER_ARN: 'arn:aws:lambda:eu-north-1:123456789012:function:my-function'
 }
 const LOGGING = {
     IMPORT_FILE_PARSER: 'INFO',

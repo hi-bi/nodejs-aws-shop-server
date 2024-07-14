@@ -40,29 +40,12 @@ class ApiGatewayImportService {
           assumeRole: authorizerRole,
         });
     
-/*
-        apiImportProductsFilePath.addMethod(
-            'GET',
-            new apigateway.LambdaIntegration(importProductsFileLambda),
-            {
-              requestParameters: {
-                  "method.request.querystring.name": true,
-              },
-              requestValidatorOptions: {
-                  requestValidatorName: "ImportProductsFile-querystring-validator",
-                  validateRequestParameters: true,
-                  validateRequestBody: false,
-              },
-            }
-        );
-*/
         apiImportProductsFilePath.addMethod(
           'GET', 
           new apigateway.LambdaIntegration(importProductsFileLambda), 
           {
             requestParameters: {
               "method.request.querystring.name": true,
-              "method.request.header.Authorization": true,
             },
             requestValidatorOptions: {
               requestValidatorName: "ImportProductsFile-querystring-validator",
