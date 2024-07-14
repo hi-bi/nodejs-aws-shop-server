@@ -3,7 +3,6 @@ import { IRestApi, IResource, MockIntegration, TokenAuthorizer } from 'aws-cdk-l
 import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { AUTH } from '../../constants/constants';
-import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 
 class ApiGatewayImportService {
@@ -24,20 +23,9 @@ class ApiGatewayImportService {
           AUTH.BASIC_AUTHORIZER_HANDLER_ARN
         );
 
-        const authorizerRole = new Role(scope, 'authorizerRole', {
-          assumedBy: new ServicePrincipal('apigateway.amazonaws.com'),
-        });
-    
-        authorizerRole.addToPolicy(
-          new PolicyStatement({
-            actions: ['lambda:InvokeFunction'],
-            resources: [basicAuthorizerHandler.functionArn],
-          }),
-        );
-
         const tokenAuthorizer = new TokenAuthorizer(scope, 'tokenAuthorizer', {
           handler: basicAuthorizerHandler,
-          assumeRole: authorizerRole,
+          identitySource: "method.request.header.Authorization",
         });
     
         apiImportProductsFilePath.addMethod(
@@ -52,6 +40,7 @@ class ApiGatewayImportService {
               validateRequestParameters: true,
               validateRequestBody: false,
             },
+            authorizationType: apigateway.AuthorizationType.CUSTOM,
             authorizer: tokenAuthorizer,
           }
         );
