@@ -1,5 +1,5 @@
 const appName = "ShopServer";
-const taskNum = "621"
+const taskNum = "711"
 const DYNAMODB = {
     PRODUCTS_TABLE: 'products' + taskNum,
     STOCKS_TABLE: 'stocks' + taskNum,
@@ -24,8 +24,11 @@ const QUEUE = {
     FILTER_SUBSCRIPTION_EMAIL: 'test@test.com'
 }
 
+const AUTH = {
+    BASIC_AUTHORIZER_HANDLER_ARN: 'arn:aws:lambda:eu-north-1:123456789012:function:my-function'
+}
 const LOGGING = {
     IMPORT_FILE_PARSER: 'INFO',
 }
 
-export {appName, taskNum, DYNAMODB, S3, LOGGING, QUEUE}
+export {appName, taskNum, AUTH, DYNAMODB, S3, LOGGING, QUEUE}

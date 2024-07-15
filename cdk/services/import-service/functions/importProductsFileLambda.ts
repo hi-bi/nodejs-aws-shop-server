@@ -47,7 +47,7 @@ export const handler: APIGatewayProxyHandler = async (
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
                 'Access-Control-Max-Age': 2592000,
-    },
+            },
             body: preSignedUrl,
         };
             
