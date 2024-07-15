@@ -3,7 +3,7 @@ import { IRestApi, IResource, MockIntegration, TokenAuthorizer } from 'aws-cdk-l
 import { Function, IFunction } from 'aws-cdk-lib/aws-lambda';
 import * as apigateway from 'aws-cdk-lib/aws-apigateway';
 import { AUTH } from '../../constants/constants';
-
+import { PolicyStatement, Role, ServicePrincipal } from 'aws-cdk-lib/aws-iam';
 
 class ApiGatewayImportService {
     apiGatewayProductService: IRestApi
@@ -13,6 +13,11 @@ class ApiGatewayImportService {
         const api = new apigateway.RestApi(scope, id, {
             description: 'Import service api.',
             cloudWatchRole: true,
+            defaultCorsPreflightOptions: {
+              allowOrigins: apigateway.Cors.ALL_ORIGINS,
+              allowHeaders: [ 'Content-Type', 'X-Amz-Date', 'Authorization', 'X-Api-Key', 'X-Amz-Security-Token' ],
+              allowMethods: apigateway.Cors.ALL_METHODS,
+            },
         });
 
         const apiImportProductsFilePath = api.root.addResource('import'); 
@@ -22,10 +27,22 @@ class ApiGatewayImportService {
           'basicAuthorizer',
           AUTH.BASIC_AUTHORIZER_HANDLER_ARN
         );
+        
+        const authorizerRole = new Role(scope, 'authorizerRole', {
+          assumedBy: new ServicePrincipal('apigateway.amazonaws.com'),
+        });
+
+        authorizerRole.addToPolicy(
+          new PolicyStatement({
+            actions: ['lambda:InvokeFunction'],
+            resources: [basicAuthorizerHandler.functionArn],
+          }),
+        );
 
         const tokenAuthorizer = new TokenAuthorizer(scope, 'tokenAuthorizer', {
           handler: basicAuthorizerHandler,
-          identitySource: "method.request.header.Authorization",
+          identitySource: apigateway.IdentitySource.header('Authorization'),
+          assumeRole: authorizerRole,
         });
     
         apiImportProductsFilePath.addMethod(
@@ -42,43 +59,59 @@ class ApiGatewayImportService {
             },
             authorizationType: apigateway.AuthorizationType.CUSTOM,
             authorizer: tokenAuthorizer,
+            methodResponses: [
+              {
+                statusCode: "200",
+                responseParameters: {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                },
+              },
+              {
+                statusCode: "401",
+                responseParameters: {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                },
+              },
+              {
+                statusCode: "403",
+                responseParameters: {
+                  "method.response.header.Access-Control-Allow-Origin": true,
+                  "method.response.header.Access-Control-Allow-Headers": true,
+                  "method.response.header.Access-Control-Allow-Methods": true,
+                },
+              },
+            ],
+            
           }
         );
 
-        addCorsOptions(apiImportProductsFilePath);
+        api.addGatewayResponse("GatewayResponseUnauthorized", {
+          type: apigateway.ResponseType.UNAUTHORIZED,
+          responseHeaders: {
+            "Access-Control-Allow-Origin": "'*'",
+            "Access-Control-Allow-Headers":
+              "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+            "Access-Control-Allow-Methods": "'OPTIONS,GET,PUT'",
+          },
+          statusCode: "401",
+        });
+    
+        api.addGatewayResponse("GatewayResponseAccessDenied", {
+          type: apigateway.ResponseType.ACCESS_DENIED,
+          responseHeaders: {
+            "Access-Control-Allow-Origin": "'*'",
+            "Access-Control-Allow-Headers":
+              "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'",
+            "Access-Control-Allow-Methods": "'OPTIONS,GET,PUT'",
+          },
+          statusCode: "403",
+        });
 
     }
 }
-
-function addCorsOptions(apiResource: IResource) {
-    apiResource.addMethod('OPTIONS', new MockIntegration({
-      // In case you want to use binary media types, uncomment the following line
-      // contentHandling: ContentHandling.CONVERT_TO_TEXT,
-      integrationResponses: [{
-        statusCode: '200',
-        responseParameters: {
-            'method.response.header.Access-Control-Allow-Headers': "'Oigin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token,X-Amz-User-Agent'",
-            'method.response.header.Access-Control-Allow-Origin': "'*'",
-            'method.response.header.Access-Control-Allow-Credentials': "'false'",
-            'method.response.header.Access-Control-Allow-Methods': "'OPTIONS,GET,PUT,POST,DELETE'",
-        },
-      }],
-      // In case you want to use binary media types, comment out the following line
-      //passthroughBehavior: PassthroughBehavior.NEVER,
-      requestTemplates: {
-        "application/json": "{\"statusCode\": 200}"
-      },
-    }), {
-      methodResponses: [{
-        statusCode: '200',
-        responseParameters: {
-          'method.response.header.Access-Control-Allow-Headers': true,
-          'method.response.header.Access-Control-Allow-Methods': true,
-          'method.response.header.Access-Control-Allow-Credentials': false,
-          'method.response.header.Access-Control-Allow-Origin': true,
-        },
-      }]
-    })
-  }
 
 export { ApiGatewayImportService }
