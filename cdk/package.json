@@ -9,12 +9,17 @@
     "watch": "tsc -w",
     "test": "jest",
     "cdk": "cdk",
-    "deploy": "cdk deploy",
-    "destroy": "cdk destroy -f",
-    "deployprof": "cdk deploy --profile admin",
-    "destroyprof": "cdk destroy -f --profile admin",
-    "lambda": "ts-node bin/lambda-build.ts",
-    "data": "ts-node scripts/put-products.ts"
+    "deploy": "cdk deploy --all",
+    "destroy": "cdk destroy -f --all",
+    "deployprof": "cdk deploy --profile admin --all",
+    "destroyprof": "cdk destroy -f --profile admin --all",
+    "lambda-p": "ts-node bin/lambda-build.ts",
+    "data": "ts-node scripts/put-products.ts",
+    "lambda-i": "ts-node bin/lambda-ipf-build.ts",
+    "deploy-p": "cdk deploy ProductServiceStack-621",
+    "destroy-p": "cdk destroy -f ProductServiceStack-621",
+    "deploy-i": "cdk deploy ImportServiceStack-621",
+    "destroy-i": "cdk destroy -f ImportServiceStack-621"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
@@ -28,11 +33,19 @@
     "typescript": "~5.4.5"
   },
   "dependencies": {
+    "@aws-lambda-powertools/logger": "^2.2.0",
     "@aws-sdk/client-dynamodb": "^3.602.0",
+    "@aws-sdk/client-s3": "^3.600.0",
+    "@aws-sdk/client-sns": "^3.609.0",
+    "@aws-sdk/client-sqs": "^3.609.0",
     "@aws-sdk/lib-dynamodb": "^3.602.0",
+    "@aws-sdk/s3-request-presigner": "^3.600.0",
     "@types/aws-lambda": "^8.10.140",
     "aws-cdk-lib": "2.145.0",
+    "aws-sdk-client-mock": "^4.0.1",
+    "aws-sdk-client-mock-jest": "^4.0.1",
     "constructs": "^10.0.0",
+    "csv-parser": "^3.0.0",
     "source-map-support": "^0.5.21",
     "yup": "^1.4.0"
   }

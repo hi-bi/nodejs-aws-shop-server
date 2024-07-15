@@ -1,7 +1,6 @@
 import { DynamoDB } from '@aws-sdk/client-dynamodb';
 import { GetCommand, ScanCommand, TransactWriteCommand } from '@aws-sdk/lib-dynamodb';
-import { IAvailableProduct, IStock, IProduct } from '../../../entities/entity-product';
-import { DYNAMODB } from '../../../constants/cdk-constants';
+import { IAvailableProduct, IStock, IProduct } from '../../entities/entity-product';
 import { randomUUID } from 'crypto';
 
 const dbClient = new DynamoDB({});
@@ -9,8 +8,8 @@ const dbClient = new DynamoDB({});
 class GetProductsData {
     
     protected env = {
-        PRODUCTS_TABLE: DYNAMODB.PRODUCTS_TABLE,
-        STOCKS_TABLE: DYNAMODB.STOCKS_TABLE,
+        PRODUCTS_TABLE: process.env.PRODUCTS_TABLE,
+        STOCKS_TABLE: process.env.STOCKS_TABLE,
     }
 
     async getAvailableProducts(): Promise<IAvailableProduct[]> {

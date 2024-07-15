@@ -1,6 +1,6 @@
 
 import { APIGatewayProxyEvent, APIGatewayProxyHandler, APIGatewayProxyResult } from 'aws-lambda';
-import { getProductsData } from '../../../dynamodb/product-storage/getProductsData';
+import { getProductsData } from '../../dynamodb/getProductsData';
 
 
 export const handler: APIGatewayProxyHandler = async (
@@ -21,9 +21,12 @@ export const handler: APIGatewayProxyHandler = async (
             return {
                 statusCode: 201,
                 headers: { 
-                    "Content-Type":"application/json",
+                    //"Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+                    "Access-Control-Allow-Headers": "Origin,Content-Type",
+                    "Content-Type": "application/json",
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
+                    'Access-Control-Max-Age': 2592000,
                 },
                 body: JSON.stringify(createdAvailableProduct),
             };
@@ -32,9 +35,12 @@ export const handler: APIGatewayProxyHandler = async (
             return {
                 statusCode: 400,
                 headers: { 
-                    "Content-Type":"application/json",
+                    //"Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+                    "Access-Control-Allow-Headers": "Origin,Content-Type",
+                    "Content-Type": "application/json",
                     'Access-Control-Allow-Origin': '*',
-                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
+                    'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
+                    'Access-Control-Max-Age': 2592000,
                 },
                 body: JSON.stringify({"message": "Error"}),
             };
@@ -45,10 +51,13 @@ export const handler: APIGatewayProxyHandler = async (
         return {
             statusCode: 500,
             headers: { 
-                "Content-Type":"application/json",
+                //"Access-Control-Allow-Headers": "Origin,Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+                "Access-Control-Allow-Headers": "Origin,Content-Type",
+                "Content-Type": "application/json",
                 'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST'
-            },
+                'Access-Control-Allow-Methods': 'OPTIONS,GET,POST,PUT',
+                'Access-Control-Max-Age': 2592000,
+        },
             body: JSON.stringify({'message': 'Internal Error'}),
         };
         

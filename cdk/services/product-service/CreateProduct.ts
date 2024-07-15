@@ -6,7 +6,7 @@ import * as lambda from 'aws-cdk-lib/aws-lambda';
 
 
 export class CreateProduct {
-    postCreateProduct: IFunction
+    createProduct: IFunction
 
     constructor(scope: Construct, id: string,
         productsTableName: string, 
@@ -20,7 +20,7 @@ export class CreateProduct {
         //    runtime: Runtime.NODEJS_LATEST,
         //});
 
-        const postCreateProduct = new lambda.Function(scope, id, {
+        const createProduct = new lambda.Function(scope, id, {
             runtime: lambda.Runtime.NODEJS_20_X, // Choose any supported Node.js runtime
             code: lambda.Code.fromAsset('dist/product-service/lambdas'), // Points to the lambda directory
             handler: 'cdk-create-product.handler', // Points to the 'cdk-products' file in the lambda directory
@@ -30,7 +30,7 @@ export class CreateProduct {
             }
         });
 
-        this.postCreateProduct = postCreateProduct;
+        this.createProduct = createProduct;
 
     }
 }
