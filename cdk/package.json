@@ -15,11 +15,14 @@
     "destroyprof": "cdk destroy -f --profile admin --all",
     "lambda-p": "ts-node bin/lambda-build.ts",
     "data": "ts-node scripts/put-products.ts",
+    "lambda-a": "ts-node bin/lambda-auth-build.ts",
     "lambda-i": "ts-node bin/lambda-ipf-build.ts",
-    "deploy-p": "cdk deploy ProductServiceStack-621",
-    "destroy-p": "cdk destroy -f ProductServiceStack-621",
-    "deploy-i": "cdk deploy ImportServiceStack-621",
-    "destroy-i": "cdk destroy -f ImportServiceStack-621"
+    "deploy-p": "cdk deploy ProductServiceStack-711",
+    "destroy-p": "cdk destroy -f ProductServiceStack-711",
+    "deploy-a": "cdk deploy AuthorizationServiceStack",
+    "destroy-a": "cdk destroy -f AuthorizationServiceStack",
+    "deploy-i": "cdk deploy ImportServiceStack-711",
+    "destroy-i": "cdk destroy -f ImportServiceStack-711"
   },
   "devDependencies": {
     "@types/jest": "^29.5.12",
