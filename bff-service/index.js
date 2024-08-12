@@ -38,8 +38,9 @@ server.route({
           }
         
         const apiHost = process.env[`${serviceKey}_SERVICE_API`.toUpperCase()];
+        const targetPath = process.env[`${serviceKey}_SERVICE_TARGET`.toUpperCase()];
         
-        const servicePath = path.replace(`/${serviceKey}/`, `/${serviceKey}s/`);
+        const servicePath = path.replace(`/${serviceKey}/`, `/${targetPath}/`);
         
         let url = `${apiHost}${servicePath}`;
         
@@ -49,7 +50,7 @@ server.route({
         
         const authToken = headers?.authorization;
         
-        console.log('url, apiHost, servicePath, authToken: ', url, apiHost, servicePath, authToken )
+        console.log('url, apiHost, servicePath, targetPath, uthToken: ', url, apiHost, servicePath, targetPath, authToken )
 
         axios({
             url,
