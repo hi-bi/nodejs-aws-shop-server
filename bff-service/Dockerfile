@@ -21,6 +21,7 @@ WORKDIR /usr/src/app
 COPY --chown=node:node package*.json ./
 
 COPY --chown=node:node --from=development /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node index.js ./
 
 COPY --chown=node:node . .
 
@@ -37,6 +38,9 @@ FROM node:18-alpine As production
 LABEL maintainer="aivironcom@gmail.com" version="1.0"
 
 COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node package*.json ./
+COPY --chown=node:node index.js ./
+
 
 EXPOSE 6000
 

@@ -1,5 +1,6 @@
 import fastify from 'fastify';
 import cors from '@fastify/cors';
+import axios from 'axios';
 import 'dotenv/config';
 
 const server = fastify({
@@ -9,7 +10,7 @@ const server = fastify({
 await server.register(cors, { origin: '*' });
 
 server.route({
-    method: ['GET', 'PUT', 'POST', 'DELETE', 'OPTIONS'],
+    method: ['GET', 'PUT', 'POST', 'DELETE'],
     url: '/*',
     handler: (req, res) => {
         const { originalUrl, method, body: data, headers } = req;
@@ -20,6 +21,8 @@ server.route({
 
         const [path, queryParams] = req.originalUrl.split('?');
         const serviceKey = path.split('/')[1];
+        
+        console.log('path, queryParams, serviceKey: ', path, queryParams, serviceKey)
 
         const paramsObj = {};
 
@@ -33,14 +36,20 @@ server.route({
         if (serviceKey !== process.env['CART_SERVICE_KEY'] && serviceKey !== process.env['PRODUCT_SERVICE_KEY']) {
             return res.status(502).send({ error: 'Cannot process request' });
           }
-
+        
         const apiHost = process.env[`${serviceKey}_SERVICE_API`.toUpperCase()];
-
-        let url = `${apiHost}/${serviceKey}s`;
-
+        
+        const servicePath = path.replace(`/${serviceKey}/`, `/${serviceKey}s/`);
+        
+        let url = `${apiHost}${servicePath}`;
+        
         if(paramsObj.id) {
           url += `/${paramsObj.id}`
         }
+        
+        const authToken = headers?.authorization;
+        
+        console.log('url, apiHost, servicePath, authToken: ', url, apiHost, servicePath, authToken )
 
         axios({
             url,
